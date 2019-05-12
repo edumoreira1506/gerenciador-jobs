@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<%- include ../tema/header.ejs %>
+<%- include ../menu/menu.ejs %>
+	<div class="main-content">
+		<div class="section__content section__content--p30">
+			<div class="container-fluid">
+				<div class="margemSelect">
+					<select class="filtroSelect centroSelect" name="property" tabindex="-1" aria-hidden="true" id="filtroSelect">
+						<option value="">Todos</option>
+						<option value="1">Meus serviços</option>
+						<option value="2">Aguardando início</option>
+						<option value="3">Concluídos</option>
+					</select>
+				</div>
+				<div class="row">
+				<% for(var i = 0; i < servicos.length; i++){ %>
+					<% 
+					var dia = (servicos[i].data_solicitacao.toString()).substring(8, 10);
+					var mes = retornarMes((servicos[i].data_solicitacao.toString()).substring(4, 7));
+					var ano = (servicos[i].data_solicitacao.toString()).substring(11, 15);
+
+					var horario = (servicos[i].data_solicitacao.toString()).substring(16, 21);
+
+					var stringData = dia + '/' + mes + '/' + ano;
+					%>
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-header">
+								<h4><%= servicos[i].nomeProjeto %></h4>
+							</div>
+							<div class="card-body">
+							<%
+							var observacaoAtual = servicos[i].observacao;
+
+							if(observacaoAtual.includes("<br />")){	%>
+								<p class="text-muted m-b-15">
+									<%	
+									var arrayObservacao = observacaoAtual.split("<br />");
+									for(var j = 0; j < arrayObservacao.length; j++){ %> 
+									<b><%= (j + 1) %>º ajuste:</b> <%= arrayObservacao[j] %><br />
+									<% } %>
+								</p>
+							<% }else{ %>
+								<p class="text-muted m-b-15"><%= servicos[i].observacao %></p>
+							<% } %>
+							<% if(servicos[i].statusServico == 0){ 
+							var dia = (servicos[i].data_termino.toString()).substring(8, 10);
+							var mes = retornarMes((servicos[i].data_termino.toString()).substring(4, 7));
+							var ano = (servicos[i].data_termino.toString()).substring(11, 15);
+							var horarioTermino = (servicos[i].data_termino.toString()).substring(16, 21);
+							var stringDataTermino = dia + '/' + mes + '/' + ano;
+							%>
+								<p class="text-muted m-b-15"><br />Status: Concluído <br />
+								Realizado por: <%= servicos[i].nomeResponsavel %><br />
+								Finalizado em: <%= stringDataTermino %> às <%= horarioTermino %>
+							<% } %>
+							<% if(servicos[i].statusServico == 1){ %>
+								<p class="text-muted m-b-15"><br />Status: Aguardando início
+									<button class="btn btn-primary" type="button" onclick="iniciarServico(<%= servicos[i].id_servico %>)">Começar</button>
+							<% } %>
+							<% if(servicos[i].statusServico == 3){ 
+									if(idUsuario == servicos[i].id_responsavel){ %>
+										<button class="btn btn-primary" type="button" onclick="mandarParaAprovacao(<%= servicos[i].id_servico %>)">Mandar para aprovação</button>
+									<% } %>
+								<p class="text-muted m-b-15"><br />Status: Em andamento <br />
+									Responsável: <%= servicos[i].nomeResponsavel %>
+							<% } %>
+							<% if(servicos[i].statusServico == 4){ %>
+								<p class="text-muted m-b-15"><br />Status: Aguardando aprovação do cliente <br />
+									Realizado por: <%= servicos[i].nomeResponsavel %>
+							<% } %>
+								<br />Pedido em: <%= stringData %> às <%= horario %></p>
+							</div>
+						</div>
+					</div>
+				<% } %>
+		</div>
+	</div>
+</div>
+
+<% 
+	function retornarMes(stringMes){
+		switch(stringMes){
+			case "Jan": return "01";
+			case "Feb": return "02";
+			case "Mar": return "03";
+			case "Apr": return "04";
+			case "May": return "05";
+			case "Jun": return "06";
+			case "Jul": return "07";
+			case "Aug": return "08";
+			case "Sep": return "09";
+			case "Oct": return "10";
+			case "Nov": return "11";
+			case "Dec": return "12";
+		}
+	}
+%>
+<script src="assets/js/servicos/funcoes.js"></script>
+<script src="assets/js/servicos/servicos.js"></script>
+</body>
+</html>

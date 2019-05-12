@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header">Criar novo cliente</div>
+        <div class="card-body card-block">
+            <form action="/ciarNovoCliente" method="post">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <input type="text" id="nome" name="nome" placeholder="Nome" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <input type="text" id="cpf_cnpj" name="cpf_cnpj" placeholder="CPF/CNPJ" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <input type="text" id="chave" name="chave" placeholder="Chave para Acesso" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-actions form-group">
+                    <button type="submit" class="btn btn-success btn-sm">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

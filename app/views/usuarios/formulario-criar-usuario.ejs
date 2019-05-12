@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<title>Criação de Usuário</title>  
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+
+	<link rel="stylesheet" type="text/css" href="assets/css/util.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" action="/criar-conta" method="post">
+					<span class="login100-form-title p-b-34 p-t-27">
+						CRIAR USUÁRIO
+					</span>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="nome" id="nome" placeholder="Nome do usuário" value="<%= usuario.nome %>">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="email" id="email" placeholder="Email de acesso do usuário" value="<%= usuario.email %>">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="password" name="senha" id="senha" placeholder="Senha de acesso do usuário">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="chave" id="chave" placeholder="Chave de acesso" value="<%= usuario.chave %>">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Criar
+						</button type="submit">
+					</div>
+					<% if(validacao.length > 0){ %>
+						<ul>
+							<li>Erros!</li>
+							<% for(var i = 0; i < validacao.length ; i++){ %>
+								<li><%= validacao[i].msg %></li>
+							<% } %>
+						</ul>
+					<% } %>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="vendor/select2/select2.min.js"></script>
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+	<script src="assets/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script src="assets/js/usuarios/funcoes.js"></script>
+
+	<% if(sucesso == 1){ %>
+		<input type="hidden" value="<%= usuario.nome %>" id="nomePessoaCriada">
+		<script>
+			criacaoContaCompleta();
+		</script>
+	<% } %>
+	<% if(sucesso == 2){ %>
+		<script>
+			criacaoPendente();
+		</script>
+	<% } %>
+	<% if(sucesso == 3){ %>
+		<script>
+			chaveInexistente();
+		</script>
+	<% } %>
+	<% if(sucesso == 4){ %>
+		<input type="hidden" value="<%= usuario.nome %>" id="nomePessoaCriada">
+		<input type="hidden" value="<%= usuario.email %>" id="emailPessoaCriada">
+		<script>
+			emailRepetido();
+		</script>
+	<% } %>
+</body>
+</html>
