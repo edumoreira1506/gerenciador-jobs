@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 12-Maio-2019 às 16:52
+-- Generation Time: 20-Maio-2019 às 00:42
 -- Versão do servidor: 10.1.37-MariaDB
 -- versão do PHP: 5.6.40
 
@@ -37,13 +37,6 @@ CREATE TABLE `cliente` (
   `ativo` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Extraindo dados da tabela `cliente`
---
-
-INSERT INTO `cliente` (`id_cliente`, `nome`, `cpf_cnpj`, `chave`, `caminho_logo`, `ativo`) VALUES
-(8, 'Transmeet M2M', '12345678987', 'transmeet_2019', NULL, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -55,13 +48,6 @@ CREATE TABLE `notificacoes` (
   `id_cliente` int(11) NOT NULL,
   `visualizada` int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `notificacoes`
---
-
-INSERT INTO `notificacoes` (`id_notificacao`, `id_cliente`, `visualizada`) VALUES
-(6, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -75,14 +61,6 @@ CREATE TABLE `projeto` (
   `status` int(11) NOT NULL DEFAULT '1',
   `id_cliente` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `projeto`
---
-
-INSERT INTO `projeto` (`id_projeto`, `nome`, `status`, `id_cliente`) VALUES
-(29, 'Smart Control', 1, 8),
-(30, 'Aplicativo SC', 1, 8);
 
 -- --------------------------------------------------------
 
@@ -99,14 +77,6 @@ CREATE TABLE `servico` (
   `status` int(11) DEFAULT '1',
   `id_responsavel` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `servico`
---
-
-INSERT INTO `servico` (`id_servico`, `id_projeto`, `data_solicitacao`, `data_termino`, `observacao`, `status`, `id_responsavel`) VALUES
-(23, 29, '2019-05-12 11:46:02', NULL, 'Ajustes de layout na página de inventário de chips.', 3, 24),
-(24, 30, '2019-05-12 11:46:21', '2019-05-12 11:51:03', 'Precisamos do APP para ontem!', 0, 21);
 
 -- --------------------------------------------------------
 
@@ -129,10 +99,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nome`, `email`, `senha`, `tipo`, `aprovado`, `id_cliente`) VALUES
-(21, 'Eduardo Moreira', 'contato@eduardoem.com.br', '4badaee57fed5610012a296273158f5f', 1, 1, NULL),
-(22, 'Neto', 'neto@transmeet.com', '4badaee57fed5610012a296273158f5f', 3, 1, 8),
-(23, 'Priscila', 'priscila@transmeet.com', '4badaee57fed5610012a296273158f5f', 2, 1, 8),
-(24, 'Bruno Caldas', 'bruno@caldas.com', '4badaee57fed5610012a296273158f5f', 1, 1, NULL);
+(21, 'Eduardo Moreira', 'contato@eduardoem.com.br', '4badaee57fed5610012a296273158f5f', 1, 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -181,31 +148,31 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `notificacoes`
 --
 ALTER TABLE `notificacoes`
-  MODIFY `id_notificacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_notificacao` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `projeto`
 --
 ALTER TABLE `projeto`
-  MODIFY `id_projeto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_projeto` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `servico`
 --
 ALTER TABLE `servico`
-  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_servico` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Constraints for dumped tables
