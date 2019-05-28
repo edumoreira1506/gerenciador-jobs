@@ -10,6 +10,24 @@
 	width: 100%;
 }
 
+.image{
+	width: 45px;
+    height: 45px;
+    float: left;
+    overflow: hidden;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.bloco{
+	display: block;
+}
+
+.image img{
+	width: 100%;
+}
+
 .centroSelect{
 	display: block;
 	margin: 0 auto;

@@ -71,6 +71,13 @@
 							<% } %>
 								<br />Pedido em: <%= stringData %> às <%= horario %></p>
 							</div>
+							<% if(servicos[i].caminho_imagem != null && servicos[i].caminho_imagem != undefined && servicos[i].caminho_imagem != ''){ %>
+							<div class="row">
+								<div class="col-md-4">
+									<img class="card-img-top" src="assets/img/uploads/<%= servicos[i].caminho_imagem %>" alt="Card image cap">
+								</div>
+							</div>
+							<% } %>
 						</div>
 					</div>
 				<% } %>

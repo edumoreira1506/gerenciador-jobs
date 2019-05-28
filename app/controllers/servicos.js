@@ -1,3 +1,6 @@
+var multer = require('multer');
+var path = require('path');
+
 module.exports.listarServicosAdmin = function(application, req, res){
 	var connection = application.config.dbConnection();
     var servicosModel = new application.app.models.ServicosDAO(connection);
@@ -21,20 +24,58 @@ module.exports.novoServico = function(application, req, res){
 }
 
 module.exports.criarNovoServico = function(application, req, res){
-    var servico = req.body;
 
-    req.assert('observacao','Nome do Projeto é obrigatório').notEmpty();
+    var storage = multer.diskStorage({
+        destination: 'app/public/assets/img/uploads',
+        filename: function(req, file, callback){
+            callback(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        }
+    });
 
-    var erros = req.validationErrors();
-    if(erros){
-        return;
+    var upload = multer({
+        storage: storage,
+        fileFilter: (req, file, callback) => {
+            checkFileType(file, callback);
+        }
+    }).single('imagens');
+
+    var checkFileType = (file, callback) => {
+        const fileTypes = /jpeg|jpg|png|gif/;
+        const extensaoImagem = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = fileTypes.test(file.mimetype)
+
+        if(mimetype && extensaoImagem){
+            return callback(null, true);
+        }else{
+            callback('1');
+        }
     }
 
-    var connection = application.config.dbConnection();
-    var servicosModel = new application.app.models.ServicosDAO(connection);
+    upload(req, res, (erros) => {
+        if(erros){
+            return;
+        }else{
+            var servico = req.body;
+            req.assert('observacao','Nome do Projeto é obrigatório').notEmpty();
 
-    servicosModel.inserirServico(servico.idProjeto, servico.observacao, function(error, result){
-        res.redirect('/servicos');
+            var erros = req.validationErrors();
+            if(erros){
+                return;
+            }
+
+            var connection = application.config.dbConnection();
+            var servicosModel = new application.app.models.ServicosDAO(connection);
+            var galeriasModel = new application.app.models.GaleriasDAO(connection);
+
+            servicosModel.inserirServico(servico.idProjeto, servico.observacao, function(error, result){
+                var idServico = result.insertId;
+                galeriasModel.inserirImagem(req.file.filename, idServico, function(error, result){
+                    var idServico = result.insertId;
+
+                    res.redirect('/servicos');
+                });
+            });
+        }
     });
 }
 
