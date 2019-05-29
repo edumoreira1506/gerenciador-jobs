@@ -29,6 +29,20 @@ module.exports = function(application){
 		}
 	})
 
+	application.post('/editarServico', function(req, res){
+		if(req.session.logado == true)
+			application.app.controllers.servicos.editarServico(application, req, res);
+		else
+			res.redirect('/');
+	});
+
+	application.post('/editarServicoFormulario', function(req, res){
+		if(req.session.logado == true)
+			application.app.controllers.servicos.editarServicoFormulario(application, req, res);
+		else
+			res.redirect('/');
+	});
+
 	application.get('/novoServico', function(req, res){
 		if(req.session.logado == true && (req.session.tipo == 3 || req.session.tipo == 2)){			
 			application.app.controllers.servicos.novoServico(application, req, res);
@@ -84,6 +98,14 @@ module.exports = function(application){
 			res.redirect('/');
 		}
 	})
+
+	application.post('/deletarServico', function(req, res){
+		if(req.session.logado == true){
+			application.app.controllers.servicos.deletarServico(application, req, res);
+		}else{
+			res.redirect('/');
+		}
+	});
 
 	application.post('/mandarParaAprovacao', function(req, res){
 		if(req.session.logado == true){

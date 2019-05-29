@@ -75,12 +75,14 @@
 									<br />Finalizado em: <%= stringDataTermino %> às <%= horarioTermino %><br />
 								<% } %>
 								</p>
-								<% if(servicos[i].statusServico == 4){ %>
-									<p class="text-muted m-b-15">
+								<p class="text-muted m-b-15">
+									<% if(servicos[i].statusServico == 4){ %>
 										<button class="btn btn-primary" onclick="aprovarServico(<%= servicos[i].id_servico %>)">Aprovar</button>
 										<button class="btn btn-primary" onclick="reprovarServico(<%= servicos[i].id_servico %>)">Reprovar</button>
-									</p>
-								<% } %>
+									<% } %>
+									<button class="btn btn-primary" onclick="editarServico(<%= servicos[i].id_servico %>)">Editar</button>
+									<button class="btn btn-primary" onclick="deletarServico(<%= servicos[i].id_servico %>)">Deletar</button>
+								</p>
 								<% if(servicos[i].caminho_imagem != null && servicos[i].caminho_imagem != undefined && servicos[i].caminho_imagem != ''){ %>
 								<div class="row">
 									<div class="col-md-4">

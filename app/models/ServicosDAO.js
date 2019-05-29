@@ -3,7 +3,7 @@ function ServicosDAO(connection){
 }
 
 ServicosDAO.prototype.pegarServicos = function(idCliente, callback){
-	this._connection.query('SELECT galeria.caminho_imagem, servico.id_servico, data_solicitacao, data_termino, observacao, servico.status as statusServico, projeto.nome as nomeProjeto FROM servico JOIN projeto USING (id_projeto) JOIN galeria USING (id_servico) WHERE id_cliente = ? AND projeto.status <> 50 ORDER BY id_servico DESC', idCliente, callback);
+	this._connection.query('SELECT galeria.caminho_imagem, servico.id_servico, data_solicitacao, data_termino, observacao, servico.status as statusServico, projeto.nome as nomeProjeto FROM servico JOIN projeto USING (id_projeto) LEFT JOIN galeria USING (id_servico) WHERE id_cliente = ? AND projeto.status <> 50 ORDER BY id_servico DESC', idCliente, callback);
 }
 
 ServicosDAO.prototype.pegarServicosPeloIdProjeto = function(idProjeto, callback){
@@ -11,7 +11,7 @@ ServicosDAO.prototype.pegarServicosPeloIdProjeto = function(idProjeto, callback)
 }
 
 ServicosDAO.prototype.pegarServicosPeloIdServico = function(idServico, callback){
-	this._connection.query('SELECT * FROM servico WHERE id_servico = ?', idServico, callback);
+	this._connection.query('SELECT servico.*, galeria.caminho_imagem FROM servico LEFT JOIN galeria USING (id_servico) WHERE servico.id_servico = ?', idServico, callback);
 }
 
 ServicosDAO.prototype.pegarServicosPeloIdCliente = function(idCliente, callback){
@@ -19,7 +19,7 @@ ServicosDAO.prototype.pegarServicosPeloIdCliente = function(idCliente, callback)
 }
 
 ServicosDAO.prototype.pegarTodosServicos = function(callback){
-	this._connection.query('SELECT galeria.caminho_imagem, usuario.nome as nomeResponsavel, id_responsavel, servico.id_servico, data_solicitacao, data_termino, observacao, servico.status as statusServico, projeto.nome as nomeProjeto FROM servico JOIN projeto USING (id_projeto) LEFT JOIN usuario ON servico.id_responsavel = usuario.id_usuario JOIN galeria USING (id_servico) WHERE projeto.status <> 50 ORDER BY id_servico DESC', callback);
+	this._connection.query('SELECT galeria.caminho_imagem, usuario.nome as nomeResponsavel, id_responsavel, servico.id_servico, data_solicitacao, data_termino, observacao, servico.status as statusServico, projeto.nome as nomeProjeto FROM servico JOIN projeto USING (id_projeto) LEFT JOIN usuario ON servico.id_responsavel = usuario.id_usuario LEFT JOIN galeria USING (id_servico) WHERE projeto.status <> 50 ORDER BY id_servico DESC', callback);
 }
 
 ServicosDAO.prototype.inserirServico = function(idProjeto, observacao, callback){
@@ -34,8 +34,20 @@ ServicosDAO.prototype.aprovarServico = function(idServico, callback){
 	this._connection.query('UPDATE servico SET status = 0, data_termino = NOW() WHERE id_servico = ?', idServico, callback);
 }
 
+ServicosDAO.prototype.deletarServico = function(idServico, callback){
+	this._connection.query('DELETE FROM servico WHERE id_servico = ?', idServico, callback);
+}
+
 ServicosDAO.prototype.editarServico = function(idServico, statusServico, callback){
 	this._connection.query('UPDATE servico SET status = ? WHERE id_servico = ?', [statusServico,idServico], callback);
+}
+
+ServicosDAO.prototype.editarImagem = function(caminhoImagem, idServico, callback){
+	this._connection.query('UPDATE galeria SET caminho_imagem = ? WHERE id_servico = ?', [caminhoImagem,idServico], callback);
+}
+
+ServicosDAO.prototype.editarObservacaoServico = function(idServico, observacao, callback){
+	this._connection.query('UPDATE servico SET observacao = ? WHERE id_servico = ?', [observacao,idServico], callback);
 }
 
 ServicosDAO.prototype.reprovarServico = function(idServico, novaObservacao, callback){

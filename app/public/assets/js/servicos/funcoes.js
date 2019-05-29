@@ -117,3 +117,39 @@ function mandarParaAprovacao(idServico){
 		}
 	})
 }
+
+function editarServico(idServico){
+	$.ajax({
+		url: '/editarServico',
+		method: 'POST',
+		data: {idServico: idServico},
+		success: function(data){
+			$('#conteudo').html(data);
+		}
+	});
+}
+
+function deletarServico(idServico){
+	Swal.fire({
+		title: `Confirmação!`,
+		text: `Tem certeza que deseja deletar o serviço?`,
+		type: 'info',
+		showCloseButton: true,
+  		showCancelButton: true,
+	}).then((result) => {
+		if (result.value) {
+			$.ajax({
+				url: '/deletarServico',
+				method: 'post',
+				dataType:'json',
+				data: {idServico},
+				success: function(data){
+					if(data.concluido == 1){
+						window.location.href = "/servicos";
+					}
+
+				}
+			});
+		}
+	})
+}
