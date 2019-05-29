@@ -35,6 +35,7 @@ ServicosDAO.prototype.aprovarServico = function(idServico, callback){
 }
 
 ServicosDAO.prototype.deletarServico = function(idServico, callback){
+	this._connection.query('DELETE FROM galeria WHERE id_servico = ?', idServico);
 	this._connection.query('DELETE FROM servico WHERE id_servico = ?', idServico, callback);
 }
 
